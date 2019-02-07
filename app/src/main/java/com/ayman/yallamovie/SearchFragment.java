@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,7 +50,7 @@ public class SearchFragment extends Fragment {
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getContext(), query,Toast.LENGTH_LONG).show();
+                searchMovies(query);
                 return false;
             }
 
@@ -59,31 +60,15 @@ public class SearchFragment extends Fragment {
             }
         });
 
-            //   getGenres();
-
         return mRootView;
     }
 
-
-    private void getGenres() {
-        moviesRepository.getGenres(new OnGetGenresCallback() {
-            @Override
-            public void onSuccess(List<Genre> genres) {
-                searchMovies(genres);
-            }
-
-            @Override
-            public void onError() {
-                showError();
-            }
-        });
-    }
-
-    private void searchMovies(final List<Genre> genres) {
-        moviesRepository.getMovies(new OnGetMoviesCallback() {
+    private void searchMovies(String query) {
+        moviesRepository.searchMovie(query, new OnGetMoviesCallback() {
             @Override
             public void onSuccess(List<Movie> movies) {
-                adapter = new MoviesAdapter(movies, genres, callback);
+                List<Genre> temp = new ArrayList<>();
+                adapter = new MoviesAdapter(movies, temp , callback);
                 searchResults.setAdapter(adapter);
             }
 
@@ -105,6 +90,22 @@ public class SearchFragment extends Fragment {
 
     private void showError() {
         Toast.makeText(getContext(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    private void getGenres() {
+        moviesRepository.getGenres(new OnGetGenresCallback() {
+            @Override
+            public void onSuccess(List<Genre> genres) {
+                //searchMovies(genres);
+            }
+
+            @Override
+            public void onError() {
+                showError();
+            }
+        });
     }
 
 }
