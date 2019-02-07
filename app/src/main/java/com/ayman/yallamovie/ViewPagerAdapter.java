@@ -20,7 +20,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
         fragments.add(new MoviesFragment());
         fragments.add(new SearchFragment());
         fragments.add(new FavouritesFragment());
-
+        fragments.add(new TMDbFragment());
     }
 
     /**
@@ -59,6 +59,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
                 break;
             case 2:
                 title = "Favourite";
+                break;
+            case 3:
+                title = "TMDb Source";
                 break;
         }
         return title;

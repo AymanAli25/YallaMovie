@@ -42,10 +42,14 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24dp);
         mTabLayout.getTabAt(2).setContentDescription("Favourites");
 
+        mTabLayout.getTabAt(3).setIcon(R.drawable.ic_android_black_24dp);
+        mTabLayout.getTabAt(3).setContentDescription("TMDb");
+
 
         mTabLayout.getTabAt(0).setText("");
         mTabLayout.getTabAt(1).setText("");
         mTabLayout.getTabAt(2).setText("");
+        mTabLayout.getTabAt(3).setText("");
 
     }
 }

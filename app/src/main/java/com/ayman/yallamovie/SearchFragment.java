@@ -1,23 +1,32 @@
 package com.ayman.yallamovie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SearchFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SearchFragment extends Fragment {
+
+    @BindView(R.id.search_recycler) RecyclerView searchResults;
+    @BindView(R.id.search) SearchView searchBar;
+
+    private View mRootView;
+    private MoviesAdapter adapter;
+    private MoviesRepository moviesRepository;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -26,7 +35,76 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        moviesRepository = MoviesRepository.getInstance();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_search, container, false);
+        ButterKnife.bind(this, mRootView);
+
+        //Setup adapter
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        searchResults.setLayoutManager(layoutManager);
+
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getContext(), query,Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+            //   getGenres();
+
+        return mRootView;
     }
+
+
+    private void getGenres() {
+        moviesRepository.getGenres(new OnGetGenresCallback() {
+            @Override
+            public void onSuccess(List<Genre> genres) {
+                searchMovies(genres);
+            }
+
+            @Override
+            public void onError() {
+                showError();
+            }
+        });
+    }
+
+    private void searchMovies(final List<Genre> genres) {
+        moviesRepository.getMovies(new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(List<Movie> movies) {
+                adapter = new MoviesAdapter(movies, genres, callback);
+                searchResults.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError() {
+                showError();
+            }
+        });
+    }
+
+    OnMoviesClickCallback callback = new OnMoviesClickCallback() {
+        @Override
+        public void onClick(Movie movie) {
+            Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+            intent.putExtra(MovieDetailsActivity.MOVIE_ID, movie.getId());
+            startActivity(intent);
+        }
+    };
+
+    private void showError() {
+        Toast.makeText(getContext(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+    }
+
 }
