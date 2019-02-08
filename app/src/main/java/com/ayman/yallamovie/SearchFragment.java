@@ -11,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class SearchFragment extends Fragment {
 
     @BindView(R.id.search_recycler) RecyclerView searchResults;
     @BindView(R.id.search) SearchView searchBar;
+    @BindView(R.id.search_text) TextView searchText;
 
     private View mRootView;
     private MoviesAdapter adapter;
@@ -50,6 +52,7 @@ public class SearchFragment extends Fragment {
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchText.setVisibility(View.INVISIBLE);
                 searchMovies(query);
                 return false;
             }
@@ -91,7 +94,6 @@ public class SearchFragment extends Fragment {
     private void showError() {
         Toast.makeText(getContext(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
     }
-
 
 
     private void getGenres() {

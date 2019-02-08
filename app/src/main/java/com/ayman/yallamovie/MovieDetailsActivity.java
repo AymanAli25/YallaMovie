@@ -52,16 +52,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         getMovie();
     }
 
-   /** private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-    } **/
-
     private void initUI() {
         movieBackdrop = findViewById(R.id.movieDetailsBackdrop);
         movieTitle = findViewById(R.id.movieDetailsTitle);
