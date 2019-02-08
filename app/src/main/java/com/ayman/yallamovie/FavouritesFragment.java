@@ -2,22 +2,25 @@ package com.ayman.yallamovie;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FavouritesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FavouritesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
 public class FavouritesFragment extends Fragment {
+
+    private View mRootView;
+    @BindView(R.id.recyclerview_favourites) RecyclerView favouritesList;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -28,8 +31,46 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourites, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_favourites, container, false);
+        ButterKnife.bind(this, mRootView);
+
+        //Setup adapter
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        favouritesList.setLayoutManager(layoutManager);
+
+        getFavourites();
+
+        return mRootView;
     }
 
 
+    private void getFavourites() {
+        class GetFavourites extends AsyncTask<Void, Void, List<MovieEntity>> {
+
+            @Override
+            protected List<MovieEntity> doInBackground(Void... voids) {
+                List<MovieEntity> favsList = DatabaseClient
+                        .getInstance(getContext())
+                        .getAppDatabase()
+                        .movieDAO()
+                        .getAll();
+                return favsList;
+            }
+
+            @Override
+            protected void onPostExecute(List<MovieEntity> movieEntities) {
+                super.onPostExecute(movieEntities);
+                FavouritesAdapter adapter = new FavouritesAdapter(getContext(), movieEntities, FavouritesFragment.this);
+                favouritesList.setAdapter(adapter);
+            }
+        }
+
+        GetFavourites getFavourites = new GetFavourites();
+        getFavourites.execute();
+    }
+
+    public void refresh()
+    {
+        getFavourites();
+    }
 }

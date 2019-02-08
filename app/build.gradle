@@ -49,4 +49,8 @@ dependencies {
         exclude group: "com.android.support"
     }
     implementation "com.android.support:support-fragment:26.1.0"
+
+    //room
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
 }

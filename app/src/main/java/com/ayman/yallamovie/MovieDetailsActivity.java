@@ -1,9 +1,12 @@
 package com.ayman.yallamovie;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -18,12 +21,15 @@ import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    private static final String TAG = "MovieDetailsActivity";
+
     public static String MOVIE_ID = "movie_id";
 
     private static String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780";
     private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
     private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
 
+    private Button addToFavs;
     private ImageView movieBackdrop;
     private TextView movieTitle;
     private TextView movieGenres;
@@ -33,6 +39,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private RatingBar movieRating;
     private LinearLayout movieTrailers;
     private LinearLayout movieReviews;
+    private boolean isFav;
 
     private MoviesRepository moviesRepository;
     private int movieId;
@@ -44,8 +51,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         movieId = getIntent().getIntExtra(MOVIE_ID, movieId);
 
-        moviesRepository = MoviesRepository.getInstance();
+        Log.v(TAG, movieId + "");
 
+        checkFav(new Integer(movieId));
+
+        moviesRepository = MoviesRepository.getInstance();
 
         initUI();
 
@@ -62,12 +72,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieRating = findViewById(R.id.movieDetailsRating);
         movieTrailers = findViewById(R.id.movieTrailers);
         movieReviews = findViewById(R.id.movieReviews);
+        addToFavs = findViewById(R.id.click_me);
     }
 
     private void getMovie() {
         moviesRepository.getMovieDetails(movieId, new OnGetMovieCallback() {
             @Override
-            public void onSuccess(Movie movie) {
+            public void onSuccess(final Movie movie) {
                 movieTitle.setText(movie.getTitle());
                 movieOverviewLabel.setVisibility(View.VISIBLE);
                 movieOverview.setText(movie.getOverview());
@@ -81,6 +92,26 @@ public class MovieDetailsActivity extends AppCompatActivity {
                             .apply(RequestOptions.placeholderOf(R.color.colorPrimary))
                             .into(movieBackdrop);
                 }
+
+                if(isFav)
+                    addToFavs.setVisibility(View.INVISIBLE);
+                else
+                    addToFavs.setVisibility(View.VISIBLE);
+
+                addToFavs.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MovieEntity me = new MovieEntity();
+                        me.setId(movie.getId());
+                        me.setTitle(movie.getTitle());
+                        me.setPosterPath(movie.getPosterPath());
+
+                        AddFavouriteTask addFavouriteTask = new AddFavouriteTask(getApplicationContext());
+                        addFavouriteTask.execute(me);
+
+                        addToFavs.setVisibility(View.INVISIBLE);
+                    }
+                });
             }
 
             @Override
@@ -88,6 +119,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 
     private void getGenres(final Movie movie) {
@@ -118,6 +151,35 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void showError() {
         Toast.makeText(MovieDetailsActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void checkFav(Integer id)
+    {
+        class IsFavourites extends AsyncTask<Integer, Void, MovieEntity> {
+
+            @Override
+            protected MovieEntity doInBackground(Integer... integers) {
+                MovieEntity favourite = DatabaseClient
+                        .getInstance(getApplicationContext())
+                        .getAppDatabase()
+                        .movieDAO()
+                        .loadFavourite(integers[0].intValue());
+                return favourite;
+            }
+
+            @Override
+            protected void onPostExecute(MovieEntity movieEntities) {
+                super.onPostExecute(movieEntities);
+                if(movieEntities != null)
+                    isFav = true;
+                else
+                    isFav = false;
+            }
+        }
+
+        IsFavourites isFavourites = new IsFavourites();
+        isFavourites.execute(id);
     }
 }
 

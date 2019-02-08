@@ -33,6 +33,14 @@ tools:context="com.ayman.yallamovie.MovieDetailsActivity">
             android:scaleType="centerCrop"
             app:layout_collapseMode="parallax" />
 
+        <Button
+            android:id="@+id/click_me"
+            android:text="Add to favourites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_horizontal"/>
+
 
     </android.support.design.widget.CollapsingToolbarLayout>
 
