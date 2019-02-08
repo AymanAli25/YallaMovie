@@ -1,13 +1,16 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.ayman.yallamovie.database.DatabaseClient;
+import com.ayman.yallamovie.database.MovieEntity;
+
 import java.lang.ref.WeakReference;
 
 /**
- * Created by Fatima on 2019-02-08.
+ * Created by Ayman on 2019-02-08.
  */
 
 public class AddFavouriteTask extends AsyncTask<MovieEntity, Void, Void> {

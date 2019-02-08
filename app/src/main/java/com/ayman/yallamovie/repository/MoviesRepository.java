@@ -1,7 +1,14 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.repository;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
+import com.ayman.yallamovie.api.TMDbApi;
+import com.ayman.yallamovie.api.callback.OnGetGenresCallback;
+import com.ayman.yallamovie.api.callback.OnGetMovieCallback;
+import com.ayman.yallamovie.api.callback.OnGetMoviesCallback;
+import com.ayman.yallamovie.api.data.Movie;
+import com.ayman.yallamovie.api.response.GenresResponse;
+import com.ayman.yallamovie.api.response.MoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -10,7 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Fatima on 2019-02-07.
+ * Created by Ayman on 2019-02-07.
  */
 
 public class MoviesRepository {

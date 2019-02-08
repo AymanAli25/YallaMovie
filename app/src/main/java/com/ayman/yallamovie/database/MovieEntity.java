@@ -1,4 +1,4 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import java.io.Serializable;
 
 /**
- * Created by Fatima on 2019-02-08.
+ * Created by Ayman on 2019-02-08.
  */
 @Entity
 public class MovieEntity implements Serializable {

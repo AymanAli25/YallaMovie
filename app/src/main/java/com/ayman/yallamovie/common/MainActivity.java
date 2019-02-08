@@ -1,11 +1,13 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.common;
 
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.view.ViewPager;
+
+import com.ayman.yallamovie.R;
+import com.ayman.yallamovie.common.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 /**
- * Created by Fatima on 2019-02-08.
+ * Created by Ayman on 2019-02-08.
  */
 
 @Dao

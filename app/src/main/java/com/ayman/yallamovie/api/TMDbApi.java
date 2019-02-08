@@ -1,4 +1,8 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.api;
+
+import com.ayman.yallamovie.api.response.GenresResponse;
+import com.ayman.yallamovie.api.data.Movie;
+import com.ayman.yallamovie.api.response.MoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -6,7 +10,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by Fatima on 2019-02-07.
+ * Created by Ayman on 2019-02-07.
  */
 
 public interface TMDbApi {

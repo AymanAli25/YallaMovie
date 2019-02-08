@@ -1,14 +1,19 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.common;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.ayman.yallamovie.ui.FavouritesFragment;
+import com.ayman.yallamovie.ui.MoviesFragment;
+import com.ayman.yallamovie.ui.SearchFragment;
+import com.ayman.yallamovie.ui.TMDbFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Fatima on 2019-02-05.
+ * Created by Ayman on 2019-02-05.
  */
 
 public class ViewPagerAdapter extends FragmentPagerAdapter{

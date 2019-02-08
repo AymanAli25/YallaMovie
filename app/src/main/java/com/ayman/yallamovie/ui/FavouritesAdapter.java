@@ -1,4 +1,4 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,13 +9,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ayman.yallamovie.R;
+import com.ayman.yallamovie.asynctask.RemoveFavouriteTask;
+import com.ayman.yallamovie.database.MovieEntity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
 /**
- * Created by Fatima on 2019-02-08.
+ * Created by Ayman on 2019-02-08.
  */
 
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.FavouriteViewHolder> {

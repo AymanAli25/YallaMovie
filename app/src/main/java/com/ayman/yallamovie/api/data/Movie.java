@@ -1,12 +1,13 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.api.data;
 
+import com.ayman.yallamovie.api.data.Genre;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- * Created by Fatima on 2019-02-07.
+ * Created by Ayman on 2019-02-07.
  */
 
 public class Movie {

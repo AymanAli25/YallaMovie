@@ -1,5 +1,6 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.api.response;
 
+import com.ayman.yallamovie.api.data.Genre;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,7 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.util;
 
 /**
- * Created by Fatima on 2019-02-07.
+ * Created by Ayman on 2019-02-07.
  */
 
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.ui;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayman.yallamovie.repository.MoviesRepository;
+import com.ayman.yallamovie.R;
+import com.ayman.yallamovie.api.callback.OnGetGenresCallback;
+import com.ayman.yallamovie.api.callback.OnGetMovieCallback;
+import com.ayman.yallamovie.api.data.Genre;
+import com.ayman.yallamovie.api.data.Movie;
+import com.ayman.yallamovie.asynctask.AddFavouriteTask;
+import com.ayman.yallamovie.database.DatabaseClient;
+import com.ayman.yallamovie.database.MovieEntity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 

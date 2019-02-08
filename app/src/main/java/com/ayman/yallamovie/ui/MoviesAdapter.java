@@ -1,4 +1,4 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -8,16 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ayman.yallamovie.api.data.Genre;
+import com.ayman.yallamovie.api.data.Movie;
+import com.ayman.yallamovie.api.callback.OnMoviesClickCallback;
+import com.ayman.yallamovie.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
- * Created by Fatima on 2019-02-07.
+ * Created by Ayman on 2019-02-07.
  */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {

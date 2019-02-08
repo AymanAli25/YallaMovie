@@ -1,10 +1,10 @@
-package com.ayman.yallamovie;
+package com.ayman.yallamovie.database;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
 /**
- * Created by Fatima on 2019-02-08.
+ * Created by Ayman on 2019-02-08.
  */
 
 public class DatabaseClient {
