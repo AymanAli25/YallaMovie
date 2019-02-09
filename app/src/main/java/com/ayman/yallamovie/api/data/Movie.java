@@ -48,6 +48,10 @@ public class Movie {
     @Expose
     private List<Genre> genres;
 
+    @SerializedName("imdb_id")
+    @Expose
+    private String imdb_id;
+
     public int getId() {
         return id;
     }
@@ -118,5 +122,13 @@ public class Movie {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    public String getImdb_id() {
+        return imdb_id;
+    }
+
+    public void setImdb_id(String imdb_id) {
+        this.imdb_id = imdb_id;
     }
 }

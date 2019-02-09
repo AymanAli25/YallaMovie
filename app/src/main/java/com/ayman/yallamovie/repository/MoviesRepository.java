@@ -142,4 +142,29 @@ public class MoviesRepository {
                 });
     }
 
+
+    public void getSimilarMovies(int movieId, final OnGetMoviesCallback callback) {
+        api.getSimilarMovies(movieId, "873af971880f724720482d8d2a43e1ed", LANGUAGE, 1)
+                .enqueue(new Callback<MoviesResponse>() {
+                    @Override
+                    public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                        if (response.isSuccessful()) {
+                            MoviesResponse moviesResponse = response.body();
+                            if (moviesResponse != null && moviesResponse.getMovies() != null) {
+                                callback.onSuccess(moviesResponse.getMovies());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
+
 }

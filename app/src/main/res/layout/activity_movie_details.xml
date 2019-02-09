@@ -71,35 +71,6 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/movieDetailsGenres"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:alpha="0.7"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsRating" />
-
-        <TextView
-            android:id="@+id/movieDetailsOverview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:alpha="0.7"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/summaryLabel" />
-
         <RatingBar
             android:id="@+id/movieDetailsRating"
             style="@style/Widget.AppCompat.RatingBar.Small"
@@ -116,6 +87,34 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieDetailsTitle" />
+
+        <TextView
+            android:id="@+id/movieDetailsGenres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:alpha="0.7"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsRating" />
+
+        <TextView
+            android:id="@+id/movieDetailsReleaseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:alpha="0.7"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsGenres" />
 
         <TextView
             android:id="@+id/summaryLabel"
@@ -135,21 +134,69 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             app:layout_constraintTop_toBottomOf="@+id/movieDetailsReleaseDate" />
 
         <TextView
-            android:id="@+id/movieDetailsReleaseDate"
+            android:id="@+id/movieDetailsOverview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:alpha="0.7"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsGenres" />
+            app:layout_constraintTop_toBottomOf="@+id/summaryLabel" />
+
+        <TextView
+            android:id="@+id/movieDetailsImdbLink"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.7"
+            android:textColor="@color/blue"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/movieDetailsShare"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsOverview"
+            />
+
+        <ImageButton
+            android:id="@+id/movieDetailsShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@id/movieDetailsImdbLink"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsOverview"
+            android:src="@drawable/ic_send_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/similarMoviesLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Similar movies"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsImdbLink" />
 
         <HorizontalScrollView
-            android:id="@+id/movieTrailersContainer"
+            android:id="@+id/similarTrailersContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -158,28 +205,14 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trailersLabel">
+            app:layout_constraintTop_toBottomOf="@+id/similarMoviesLabel">
 
             <LinearLayout
-                android:id="@+id/movieTrailers"
+                android:id="@+id/similarMovies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />
         </HorizontalScrollView>
-
-        <TextView
-            android:id="@+id/trailersLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Trailers"
-            android:textSize="24sp"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsOverview" />
 
         <TextView
             android:id="@+id/reviewsLabel"

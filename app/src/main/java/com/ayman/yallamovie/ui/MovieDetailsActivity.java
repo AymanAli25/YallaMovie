@@ -1,18 +1,20 @@
 package com.ayman.yallamovie.ui;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayman.yallamovie.api.callback.OnGetMoviesCallback;
 import com.ayman.yallamovie.repository.MoviesRepository;
 import com.ayman.yallamovie.R;
 import com.ayman.yallamovie.api.callback.OnGetGenresCallback;
@@ -37,6 +39,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private static String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780";
     private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
     private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
+    private static String IMDB_BASE_URL = "https://www.imdb.com/title/";
 
     private Button addToFavs;
     private ImageView movieBackdrop;
@@ -46,7 +49,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView movieOverviewLabel;
     private TextView movieReleaseDate;
     private RatingBar movieRating;
-    private LinearLayout movieTrailers;
+    private TextView movieImdbLink;
+    private ImageButton movieShare;
+    private LinearLayout similarMovies;
+    private TextView similarMoviesLable;
     private LinearLayout movieReviews;
     private boolean isFav;
 
@@ -59,8 +65,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_details);
 
         movieId = getIntent().getIntExtra(MOVIE_ID, movieId);
-
-        Log.v(TAG, movieId + "");
 
         checkFav(new Integer(movieId));
 
@@ -79,48 +83,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieOverviewLabel = findViewById(R.id.summaryLabel);
         movieReleaseDate = findViewById(R.id.movieDetailsReleaseDate);
         movieRating = findViewById(R.id.movieDetailsRating);
-        movieTrailers = findViewById(R.id.movieTrailers);
+        similarMovies = findViewById(R.id.similarMovies);
         movieReviews = findViewById(R.id.movieReviews);
         addToFavs = findViewById(R.id.click_me);
+        movieImdbLink = findViewById(R.id.movieDetailsImdbLink);
+        movieShare = findViewById(R.id.movieDetailsShare);
+        similarMoviesLable = findViewById(R.id.similarMoviesLabel);
     }
 
     private void getMovie() {
         moviesRepository.getMovieDetails(movieId, new OnGetMovieCallback() {
             @Override
             public void onSuccess(final Movie movie) {
-                movieTitle.setText(movie.getTitle());
-                movieOverviewLabel.setVisibility(View.VISIBLE);
-                movieOverview.setText(movie.getOverview());
-                movieRating.setVisibility(View.VISIBLE);
-                movieRating.setRating(movie.getRating() / 2);
-                getGenres(movie);
-                movieReleaseDate.setText(movie.getReleaseDate());
-                if (!isFinishing()) {
-                    Glide.with(MovieDetailsActivity.this)
-                            .load(IMAGE_BASE_URL + movie.getBackdrop())
-                            .apply(RequestOptions.placeholderOf(R.color.colorPrimary))
-                            .into(movieBackdrop);
-                }
-
-                if(isFav)
-                    addToFavs.setVisibility(View.INVISIBLE);
-                else
-                    addToFavs.setVisibility(View.VISIBLE);
-
-                addToFavs.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        MovieEntity me = new MovieEntity();
-                        me.setId(movie.getId());
-                        me.setTitle(movie.getTitle());
-                        me.setPosterPath(movie.getPosterPath());
-
-                        AddFavouriteTask addFavouriteTask = new AddFavouriteTask(getApplicationContext());
-                        addFavouriteTask.execute(me);
-
-                        addToFavs.setVisibility(View.INVISIBLE);
-                    }
-                });
+                setupMovie(movie);
             }
 
             @Override
@@ -128,8 +103,88 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
 
+    private void setupMovie(final Movie movie) {
 
+        movieTitle.setText(movie.getTitle());
+        movieOverviewLabel.setVisibility(View.VISIBLE);
+        movieOverview.setText(movie.getOverview());
+        movieRating.setVisibility(View.VISIBLE);
+        movieRating.setRating(movie.getRating() / 2);
+        getGenres(movie);
+        movieReleaseDate.setText(movie.getReleaseDate());
+        movieImdbLink.setText(IMDB_BASE_URL + movie.getImdb_id());
+        if (!isFinishing()) {
+            Glide.with(MovieDetailsActivity.this)
+                    .load(IMAGE_BASE_URL + movie.getBackdrop())
+                    .apply(RequestOptions.placeholderOf(R.color.colorPrimary))
+                    .into(movieBackdrop);
+        }
+        if(isFav)
+            addToFavs.setVisibility(View.INVISIBLE);
+        else
+            addToFavs.setVisibility(View.VISIBLE);
+
+        getSimilarMovies(movie.getId());
+
+        movieShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, IMDB_BASE_URL + movie.getImdb_id());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        });
+
+        addToFavs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MovieEntity me = new MovieEntity();
+                me.setId(movie.getId());
+                me.setTitle(movie.getTitle());
+                me.setPosterPath(movie.getPosterPath());
+
+                AddFavouriteTask addFavouriteTask = new AddFavouriteTask(getApplicationContext());
+                addFavouriteTask.execute(me);
+
+                addToFavs.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void getSimilarMovies(int id) {
+        moviesRepository.getSimilarMovies(id, new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(List<Movie> movies) {
+                similarMoviesLable.setVisibility(View.VISIBLE);
+                similarMovies.removeAllViews();
+                for (final Movie movie : movies) {
+                    View parent = getLayoutInflater().inflate(R.layout.item_favourite, similarMovies, false);
+
+                    TextView title = parent.findViewById(R.id.item_fav_title);
+                    title.setText(movie.getTitle());
+                    ImageButton remove = parent.findViewById(R.id.item_fav_remove);
+                    remove.setVisibility(View.INVISIBLE);
+
+                    ImageView thumbnail = parent.findViewById(R.id.item_fav_poster);
+                    thumbnail.requestLayout();
+                    Glide.with(MovieDetailsActivity.this)
+                            .load(IMAGE_BASE_URL + movie.getBackdrop())
+                            .apply(RequestOptions.placeholderOf(R.color.colorPrimary).centerCrop())
+                            .into(thumbnail);
+                    similarMovies.addView(parent);
+                }
+            }
+
+            @Override
+            public void onError() {
+                // Do nothing
+                similarMoviesLable.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void getGenres(final Movie movie) {
