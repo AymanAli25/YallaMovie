@@ -33,6 +33,7 @@ public class MoviesFragment extends Fragment {
 
     private MoviesAdapter adapter;
     private MoviesRepository moviesRepository;
+    private List<Genre> allGenres;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -54,6 +55,7 @@ public class MoviesFragment extends Fragment {
         moviesList.setLayoutManager(layoutManager);
 
         getGenres();
+        getMovies();
 
         return mRootView;
     }
@@ -63,7 +65,7 @@ public class MoviesFragment extends Fragment {
         moviesRepository.getGenres(new OnGetGenresCallback() {
             @Override
             public void onSuccess(List<Genre> genres) {
-                getMovies(genres);
+                allGenres = genres;
             }
 
             @Override
@@ -73,11 +75,11 @@ public class MoviesFragment extends Fragment {
         });
     }
 
-    private void getMovies(final List<Genre> genres) {
+    private void getMovies() {
         moviesRepository.getMovies(new OnGetMoviesCallback() {
             @Override
             public void onSuccess(List<Movie> movies) {
-                adapter = new MoviesAdapter(movies, genres, callback);
+                adapter = new MoviesAdapter(movies, allGenres, callback);
                 moviesList.setAdapter(adapter);
             }
 

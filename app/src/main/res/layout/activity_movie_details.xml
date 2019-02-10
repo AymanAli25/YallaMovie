@@ -35,11 +35,12 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
 
         <Button
             android:id="@+id/click_me"
-            android:text="Add to favourites"
+            android:text=" Add to favourites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/ic_favorite_border_black_24dp"/>
 
 
     </android.support.design.widget.CollapsingToolbarLayout>
@@ -66,6 +67,7 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             android:layout_marginTop="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -98,6 +100,7 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:alpha="0.7"
+            android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieDetailsRating" />
@@ -117,6 +120,41 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             app:layout_constraintTop_toBottomOf="@+id/movieDetailsGenres" />
 
         <TextView
+            android:id="@+id/movieDetailsImdbLink"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.7"
+            android:textColor="@color/blue"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/movieDetailsShare"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsReleaseDate"
+            />
+
+        <Button
+            android:id="@+id/movieDetailsShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_send_black_24dp"
+            android:text="Share"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@id/movieDetailsImdbLink"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsReleaseDate"
+
+            />
+
+        <TextView
             android:id="@+id/summaryLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -127,11 +165,12 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             android:layout_marginTop="31dp"
             android:text="Summary"
             android:textSize="24sp"
+            android:textColor="@color/black"
             android:visibility="gone"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsReleaseDate" />
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsImdbLink" />
 
         <TextView
             android:id="@+id/movieDetailsOverview"
@@ -149,39 +188,6 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             app:layout_constraintTop_toBottomOf="@+id/summaryLabel" />
 
         <TextView
-            android:id="@+id/movieDetailsImdbLink"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:alpha="0.7"
-            android:textColor="@color/blue"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/movieDetailsShare"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsOverview"
-            />
-
-        <ImageButton
-            android:id="@+id/movieDetailsShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toRightOf="@id/movieDetailsImdbLink"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsOverview"
-            android:src="@drawable/ic_send_black_24dp"
-            />
-
-        <TextView
             android:id="@+id/similarMoviesLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -190,13 +196,14 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             android:layout_marginTop="32dp"
             android:text="Similar movies"
             android:textSize="24sp"
+            android:textColor="@color/black"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDetailsImdbLink" />
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailsOverview" />
 
         <HorizontalScrollView
-            android:id="@+id/similarTrailersContainer"
+            android:id="@+id/similarMoviesContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -215,21 +222,23 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
         </HorizontalScrollView>
 
         <TextView
-            android:id="@+id/reviewsLabel"
+            android:id="@+id/castLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="24dp"
-            android:text="Reviews"
+            android:text="Cast"
             android:textSize="24sp"
+            android:textColor="@color/black"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieTrailersContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/similarMoviesContainer"
+            />
 
         <LinearLayout
-            android:id="@+id/movieReviews"
+            android:id="@+id/movieCast"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -238,7 +247,20 @@ tools:context="com.ayman.yallamovie.ui.MovieDetailsActivity">
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reviewsLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/castLabel" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieCast"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/black"
+            android:text="*****"
+            android:textSize="30sp"
+            />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -14,7 +14,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayman.yallamovie.api.callback.OnGetCastCallback;
 import com.ayman.yallamovie.api.callback.OnGetMoviesCallback;
+import com.ayman.yallamovie.api.data.Cast;
 import com.ayman.yallamovie.repository.MoviesRepository;
 import com.ayman.yallamovie.R;
 import com.ayman.yallamovie.api.callback.OnGetGenresCallback;
@@ -50,10 +52,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView movieReleaseDate;
     private RatingBar movieRating;
     private TextView movieImdbLink;
-    private ImageButton movieShare;
+    private Button movieShare;
     private LinearLayout similarMovies;
     private TextView similarMoviesLable;
-    private LinearLayout movieReviews;
+    private LinearLayout movieCast;
+    private TextView castLabel;
     private boolean isFav;
 
     private MoviesRepository moviesRepository;
@@ -84,11 +87,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieReleaseDate = findViewById(R.id.movieDetailsReleaseDate);
         movieRating = findViewById(R.id.movieDetailsRating);
         similarMovies = findViewById(R.id.similarMovies);
-        movieReviews = findViewById(R.id.movieReviews);
+        movieCast = findViewById(R.id.movieCast);
         addToFavs = findViewById(R.id.click_me);
         movieImdbLink = findViewById(R.id.movieDetailsImdbLink);
         movieShare = findViewById(R.id.movieDetailsShare);
         similarMoviesLable = findViewById(R.id.similarMoviesLabel);
+        castLabel = findViewById(R.id.castLabel);
     }
 
     private void getMovie() {
@@ -96,6 +100,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(final Movie movie) {
                 setupMovie(movie);
+                getSimilarMovies(movie.getId());
+                getReviews(movie.getId());
             }
 
             @Override
@@ -125,8 +131,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
             addToFavs.setVisibility(View.INVISIBLE);
         else
             addToFavs.setVisibility(View.VISIBLE);
-
-        getSimilarMovies(movie.getId());
 
         movieShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,14 +166,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 similarMoviesLable.setVisibility(View.VISIBLE);
                 similarMovies.removeAllViews();
                 for (final Movie movie : movies) {
-                    View parent = getLayoutInflater().inflate(R.layout.item_favourite, similarMovies, false);
+                    View parent = getLayoutInflater().inflate(R.layout.item_similar_movie, similarMovies, false);
 
-                    TextView title = parent.findViewById(R.id.item_fav_title);
+                    TextView title = parent.findViewById(R.id.item_similar_title);
                     title.setText(movie.getTitle());
-                    ImageButton remove = parent.findViewById(R.id.item_fav_remove);
-                    remove.setVisibility(View.INVISIBLE);
 
-                    ImageView thumbnail = parent.findViewById(R.id.item_fav_poster);
+                    ImageView thumbnail = parent.findViewById(R.id.item_similar_poster);
                     thumbnail.requestLayout();
                     Glide.with(MovieDetailsActivity.this)
                             .load(IMAGE_BASE_URL + movie.getBackdrop())
@@ -186,6 +188,30 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getReviews(int id) {
+        moviesRepository.getCast(id, new OnGetCastCallback() {
+            @Override
+            public void onSuccess(List<Cast> casts) {
+                castLabel.setVisibility(View.VISIBLE);
+                movieCast.removeAllViews();
+                for (Cast cast : casts) {
+                    View parent = getLayoutInflater().inflate(R.layout.item_cast, movieCast, false);
+                    TextView character = parent.findViewById(R.id.item_cast_character);
+                    TextView castName = parent.findViewById(R.id.item_cast_name);
+                    character.setText(cast.getCharacter());
+                    castName.setText(cast.getName());
+                    movieCast.addView(parent);
+                }
+            }
+
+            @Override
+            public void onError() {
+                castLabel.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
 
     private void getGenres(final Movie movie) {
         moviesRepository.getGenres(new OnGetGenresCallback() {

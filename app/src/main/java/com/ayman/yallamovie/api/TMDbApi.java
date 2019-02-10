@@ -1,5 +1,6 @@
 package com.ayman.yallamovie.api;
 
+import com.ayman.yallamovie.api.response.CastResponse;
 import com.ayman.yallamovie.api.response.GenresResponse;
 import com.ayman.yallamovie.api.data.Movie;
 import com.ayman.yallamovie.api.response.MoviesResponse;
@@ -49,5 +50,11 @@ public interface TMDbApi {
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page
+    );
+
+    @GET("movie/{movie_id}/credits")
+    Call<CastResponse> getCast(
+            @Path("movie_id") int id,
+            @Query("api_key") String apiKEy
     );
 }
